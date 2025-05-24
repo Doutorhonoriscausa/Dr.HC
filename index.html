@@ -1,43 +1,4 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -132,9 +93,9 @@
         <input type="text" id="nome" placeholder="Seu Nome" class="w-full p-2 mb-4 border rounded bg-gray-700 text-white">
         <input type="email" id="email" placeholder="Seu Email" class="w-full p-2 mb-4 border rounded bg-gray-700 text-white">
         <textarea id="mensagem" placeholder="Sua Mensagem" class="w-full p-2 mb-4 border rounded bg-gray-700 text-white" rows="4"></textarea>
-        <button onclick="enviarFormulario()" class="bg-yellow-500 text-gray-800 px-6 py-2 rounded-full hover:bg-yellow-600">Enviar</button>
+        <a href="https://wa.me/message/XNM7BGPIKMJQF1" target="_blank" class="bg-yellow-500 text-gray-800 px-6 py-2 rounded-full hover:bg-yellow-600">Fale pelo WhatsApp</a>
       </div>
-      <p class="mt-6">WhatsApp: (21) 99609-9532 | Email: Sirleneamada@hotmail.com</p>
+      <p class="mt-6">WhatsApp: (21) 99609-9532 | Email: sirleneamada@hotmail.com</p>
     </div>
   </section>
 
@@ -153,22 +114,6 @@
         });
       });
     });
-
-    // Função para contato
-    function envia contato() {
-      const nome = document.getElementById('nome').value;
-      const email = document.getElementById('email').value;
-      watshapp = document.getElementById('https://wa.me/message/XNM7BGPIKMJQF1).value;
-      
-      if (nome && email && mensagem) {
-        alert( enviado com sucesso! Entraremos em contato em breve.');
-        document.getElementById('nome').value = '';
-        document.getElementById('email').value = '';
-        document.getElementById('mensagem').value = '';
-      } else {
-        alert('Por favor,click no link e sera direcionado.');
-      }
-    }
   </script>
 </body>
 </html>
